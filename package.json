@@ -1,10 +1,21 @@
 {
   "name": "jssbml",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "lib/index.js",
   "author": "lordvlad",
   "license": "MIT",
+  "scripts": {
+    "test": "tape tests/**/*.js"
+  },
+  "devDependencies": {
+    "is-boolean": "^0.0.1",
+    "is-number": "^3.0.0",
+    "multipipe": "^1.0.2",
+    "sax": "^1.2.2",
+    "standard": "^10.0.2",
+    "tape": "^4.6.3"
+  },
   "dependencies": {
-    "sax": "^1.2.2"
+    "lodash.pick": "^4.4.0"
   }
 }
