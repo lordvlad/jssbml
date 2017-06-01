@@ -1,19 +1,11 @@
 const test = require('tape')
-const { inspect } = require('util')
 const fs = require('fs')
 const isNum = require('is-number')
 const isBool = require('is-boolean')
 
 const { createXmlReader, createParser } = require('..')
 
-/**
- * @param {Iterator<any>} a
- * @param {any} b
- * @returns {boolean}
- */
-function contains (a, b) {
-  return [...a].indexOf(b) > -1
-}
+function contains (a, b) { return [...a].indexOf(b) > -1 }
 
 test('reader', (t) => {
   t.plan(1)
@@ -94,9 +86,18 @@ test('layout', (t) => {
 
       let layout = m.annotation.layouts.values().next().value
 
-      t.ok(layout)
+      t.ok(layout, 'layout should be present')
+      t.ok(layout.id, 'layout should have an id')
+      t.ok(layout.compartmentGlyphs, 'layout should have compartment glyphs')
+      t.equal(layout.compartmentGlyphs.size, 5, 'layout should have 5 compartment glyphs')
+      t.ok(layout.speciesGlyphs, 'layout should have species glyphs')
+      t.equal(layout.speciesGlyphs.size, 16, 'layout should have 16 species glyphs')
+      t.ok(layout.reactionGlyphs, 'layout should have reaction glyphs')
+      t.equal(layout.reactionGlyphs.size, 6, 'layout should have 6 reaction glyphs')
+      t.ok(layout.textGlyphs, 'layout should have text glyphs')
+      t.equal(layout.textGlyphs.size, 27, 'layout should have 27 text glyphs')
 
-      console.log(inspect(layout))
+      console.log(Object.keys(layout))
 
       t.end()
     })
