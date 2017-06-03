@@ -82,6 +82,20 @@ test('layout', (t) => {
       t.ok(JSON.stringify(m), 'shouldn\'t be cyclic')
       t.ok(m.annotation, 'should have an annotation')
       t.ok(m.annotation.layouts, 'should have layouts')
+
+      t.ok(m.reactions, 'should have reactions')
+      t.equal(m.reactions.size, 10, 'should have 10 reactions')
+
+      for (let r of m.reactions.values()) {
+        t.ok(r.id, 'reaction should have an id')
+        for (let s of r.reactants) {
+          t.ok(contains(m.species.values(), s.species))
+          t.ok(s.annotation)
+        }
+        for (let s of r.products) t.ok(contains(m.species.values(), s.species))
+        for (let s of r.modifiers) t.ok(contains(m.species.values(), s.species))
+      }
+
       t.equal(m.annotation.layouts.size, 1, 'should have one layout')
 
       let layout = m.annotation.layouts.values().next().value
@@ -96,8 +110,6 @@ test('layout', (t) => {
       t.equal(layout.reactionGlyphs.size, 6, 'layout should have 6 reaction glyphs')
       t.ok(layout.textGlyphs, 'layout should have text glyphs')
       t.equal(layout.textGlyphs.size, 27, 'layout should have 27 text glyphs')
-
-      console.log(Object.keys(layout))
 
       t.end()
     })
