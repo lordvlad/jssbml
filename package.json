@@ -9,6 +9,7 @@
     "report": "nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
+    "array-last": "^1.1.1",
     "is-boolean": "^0.0.1",
     "is-empty-object": "^1.1.1",
     "is-number": "^3.0.0",
