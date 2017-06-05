@@ -3,7 +3,7 @@ const test = require('tape')
 const {createParser} = require('..')
 
 const txt = fs.readFileSync('tests/resources/example5.xml')
-const nSamples = 1000
+const nSamples = 100
 const tLimit = 100 // milliseconds
 
 test('performance', (t) => {
