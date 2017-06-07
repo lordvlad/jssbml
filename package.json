@@ -17,8 +17,7 @@
     "is-object": "^1.0.1",
     "lodash.pick": "^4.4.0",
     "multipipe": "^1.0.2",
-    "sax": "^1.2.2",
-    "tee": "^0.2.0"
+    "sax": "^1.2.2"
   },
   "devDependencies": {
     "coveralls": "^2.13.1",

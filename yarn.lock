@@ -2286,12 +2286,6 @@ tape@^4.6.3:
     string.prototype.trim "~1.1.2"
     through "~2.3.8"
 
-tee@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/tee/-/tee-0.2.0.tgz#d87b58207a0c99bd627179c2c2c6235e3d39d725"
-  dependencies:
-    through "~1.1.1"
-
 test-exclude@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/test-exclude/-/test-exclude-4.1.1.tgz#4d84964b0966b0087ecc334a2ce002d3d9341e26"
@@ -2309,10 +2303,6 @@ text-table@~0.2.0:
 through@^2.3.6, through@~2.3.4, through@~2.3.8:
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
-
-through@~1.1.1:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/through/-/through-1.1.2.tgz#344a5425a3773314ca7e0eb6512fbafaf76c0bfe"
 
 to-fast-properties@^1.0.1:
   version "1.0.3"
