@@ -7,7 +7,7 @@ const { createReader, createWriter } = require('..')
 
 function contains (a, b) { return Array.from(a).indexOf(b) > -1 }
 
-test.skip('parser', (t) => {
+test('parser', (t) => {
   fs.createReadStream('tests/resources/gly.xml')
     .pipe(createReader())
     .on('data', (m) => {
@@ -79,7 +79,7 @@ test('writer', (t) => {
     })
 })
 
-test.skip('layout', (t) => {
+test('layout', (t) => {
   fs.createReadStream('tests/resources/example5.xml')
     .pipe(createReader())
     .on('data', (m) => {
