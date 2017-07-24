@@ -1,6 +1,6 @@
 const fs = require('fs')
 const test = require('tape')
-const {createParser} = require('..')
+const { createReader } = require('..')
 
 const txt = fs.readFileSync('tests/resources/example5.xml')
 const nSamples = 100
@@ -11,7 +11,7 @@ test('performance', (t) => {
     if (i <= 0) return sum
     return new Promise((resolve, reject) => {
       const start = process.hrtime()
-      const p = createParser()
+      const p = createReader()
       p.on('data', (m) => {
         const diff = process.hrtime(start)
         const n = diff[0] * 1e9 + diff[1]
