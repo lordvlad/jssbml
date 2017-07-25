@@ -77,12 +77,12 @@ function testRoundTrip (f, t) {
     .pipe(createReader())
     .pipe(createBuilder())
     .on('data', (a) => {
-      fs.writeFileSync('a.json', JSON.stringify(a, null, 2))
+      // fs.writeFileSync('a.json', JSON.stringify(a, null, 2))
       const w = createWriter()
       // const v = createWriter()
       // v.pipe(fs.createWriteStream('a.xml')).on('end', () => t.end())
       w.pipe(createReader()).pipe(createBuilder()).on('data', (b) => {
-        fs.writeFileSync('b.json', JSON.stringify(b, null, 2))
+        // fs.writeFileSync('b.json', JSON.stringify(b, null, 2))
         t.deepEqual(b, a)
         t.end()
       })
