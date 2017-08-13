@@ -13,7 +13,8 @@ test('parser', (t) => {
   fs.createReadStream('tests/resources/gly.xml')
     .pipe(createReader())
     .pipe(createBuilder())
-    .on('data', (m) => {
+    .on('data', (d) => {
+      const m = d.model
       t.ok(m, 'should be something')
       t.ok(m.id, 'should have an id')
       t.ok(m.metaid, 'should have an metaid')
@@ -95,7 +96,8 @@ test('layout', (t) => {
   fs.createReadStream('tests/resources/example5.xml')
     .pipe(createReader())
     .pipe(createBuilder())
-    .on('data', (m) => {
+    .on('data', (d) => {
+      const m = d.model
       t.ok(JSON.stringify(m), 'shouldn\'t be cyclic')
       t.ok(m.annotation, 'should have an annotation')
       t.ok(m.annotation.layouts, 'should have layouts')
