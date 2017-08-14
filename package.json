@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "array-last": "^1.1.1",
+    "deep-diff": "^0.3.8",
     "in-array": "^0.1.2",
     "is-boolean": "^0.0.1",
     "is-empty-object": "^1.1.1",
     "is-number": "^3.0.0",
     "is-object": "^1.0.1",
+    "lodash.capitalize": "^4.2.1",
     "lodash.pick": "^4.4.0",
     "multipipe": "^1.0.2",
     "sax": "^1.2.2"
