@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "test": "nyc tape tests/**/*.js | faucet",
+    "ci-test": "nyc tape tests/**/*.js",
     "report": "nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
