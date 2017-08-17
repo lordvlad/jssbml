@@ -23,8 +23,9 @@
   },
   "devDependencies": {
     "coveralls": "^2.13.1",
+    "faucet": "^0.0.1",
     "nyc": "^11.0.3",
     "standard": "^10.0.2",
-    "tape": "^4.6.3"
+    "tape": "^4.8.0"
   }
 }
