@@ -5,12 +5,14 @@
   "author": "lordvlad",
   "license": "MIT",
   "scripts": {
-    "test": "nyc tape tests/**/*.js",
+    "test": "nyc tape tests/**/*.js | faucet",
     "report": "nyc report --reporter=text-lcov | coveralls"
   },
-  "dependencies": {
+  "devDependencies": {
     "array-last": "^1.1.1",
-    "faucet": "0.0.1",
+    "coveralls": "^2.13.1",
+    "deep-diff": "^0.3.8",
+    "faucet": "^0.0.1",
     "in-array": "^0.1.2",
     "is-boolean": "^0.0.1",
     "is-empty-object": "^1.1.1",
@@ -18,12 +20,9 @@
     "is-object": "^1.0.1",
     "lodash.pick": "^4.4.0",
     "multipipe": "^1.0.2",
-    "sax": "^1.2.2"
-  },
-  "devDependencies": {
-    "coveralls": "^2.13.1",
     "nyc": "^11.0.3",
+    "sax": "^1.2.2",
     "standard": "^10.0.2",
-    "tape": "^4.6.3"
+    "tape": "^4.8.0"
   }
 }
