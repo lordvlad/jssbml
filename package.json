@@ -20,6 +20,7 @@
     "lodash.pick": "^4.4.0",
     "multipipe": "^1.0.2",
     "nyc": "^11.0.3",
+    "object-path-get": "^1.0.0",
     "sax": "^1.2.2",
     "standard": "^10.0.2",
     "tape": "^4.8.0"
