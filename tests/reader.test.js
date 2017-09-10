@@ -7,22 +7,21 @@ const deepdiff = require('deep-diff')
 const { Document, revive, createReader, createWriter, createBuilder } = require('..')
 const {
   Model, ListOfSpecies, ListOfReactions, ListOfCompartments,
-  Compartment, Species, Reaction
+  Compartment, Species, Reaction, ListOfProducts, ListOfReactants,
+  ListOfModifiers, ModifierSpeciesReference, SpeciesReference
 } = Document
 
 test('parse tca', (t) => testReader(t, 'tests/resources/tca.xml', 2, 26, 17))
 test('parse gly', (t) => testReader(t, 'tests/resources/gly.xml', 2, 25, 19, true, true))
-test('parser', (t) => testReader(t, 'tests/resources/example5.xml', 4, 32, 10))
+test('parse layout', (t) => testLayout(t, 'tests/resources/example5.xml'))
 test('roundtrip tca', (t) => testRoundTrip('tests/resources/tca.xml', t))
 test('roundtrip gly', (t) => testRoundTrip('tests/resources/gly.xml', t))
 test('roundtrip layout', (t) => testRoundTrip('tests/resources/example5.xml', t))
-// test('revive tca', (t) => testRevive('tests/resources/tca.xml', t, 2, 26, 17))
-// test('revive gly', (t) => testRevive('tests/resources/gly.xml', t, 2, 25, 19, true, true))
-// test('revive layout', (t) => testRevive('tests/resources/example5.xml', t))
+test('revive tca', (t) => testRevive('tests/resources/tca.xml', t, 2, 26, 17))
+test('revive gly', (t) => testRevive('tests/resources/gly.xml', t, 2, 25, 19, true, true))
+test('revive layout', (t) => testRevive('tests/resources/example5.xml', t, 4, 32, 10, false, false))
 
-function contains (a, b) { return Array.from(a).indexOf(b) > -1 }
-function size (x) { return x ? (x.size || x.length || Object.keys(x).length) : 0 }
-function values (x) { return x ? (x.values ? x.values() : Object.values(x)) : [] }
+function contains (a, b) { return a.indexOf(b) > -1 }
 
 function testReader (t, file, nCompartments, nSpecies, nReactions,
   shouldHaveBoundaryCondition, shouldHaveInitialConcentration) {
@@ -45,8 +44,8 @@ function validate (t, d, nCompartments, nSpecies, nReactions,
 
   t.ok(m.listOfCompartments, 'should have compartments')
   t.ok(m.listOfCompartments instanceof ListOfCompartments)
-  t.equals(size(m.listOfCompartments), nCompartments, `should have ${nCompartments} compartments`)
-  for (let c of values(m.listOfCompartments)) {
+  t.equals(m.listOfCompartments.length, nCompartments, `should have ${nCompartments} compartments`)
+  for (let c of m.listOfCompartments) {
     t.ok(c instanceof Compartment)
     t.ok(c.id, 'compartment should have an id')
     t.ok(c.size, 'compartment should have a size')
@@ -54,8 +53,8 @@ function validate (t, d, nCompartments, nSpecies, nReactions,
 
   t.ok(m.listOfSpecies, 'should have species')
   t.ok(m.listOfSpecies instanceof ListOfSpecies)
-  t.equal(size(m.listOfSpecies), nSpecies, `should have ${nSpecies} species but has ${size(m.listOfSpecies)}`)
-  for (let c of values(m.listOfSpecies)) {
+  t.equal(m.listOfSpecies.length, nSpecies, `should have ${nSpecies} species but has ${m.listOfSpecies.length}`)
+  for (let c of m.listOfSpecies) {
     t.ok(c instanceof Species)
     t.ok(c.id, 'species should have an id')
     t.ok(c.name, 'species hould have an name')
@@ -63,34 +62,40 @@ function validate (t, d, nCompartments, nSpecies, nReactions,
     if (shouldHaveBoundaryCondition) t.ok(isBool(c.boundaryCondition), 'species should have a boolean boundary condition')
     t.ok(c.compartment, 'species should have a compartment')
     t.ok(c.compartment instanceof Compartment)
-    t.ok(contains(values(m.listOfCompartments), c.compartment), 'species\' compartment should be defined in the model')
+    t.ok(contains(m.listOfCompartments, c.compartment), 'species\' compartment should be defined in the model')
   }
 
   t.ok(m.listOfReactions, 'should have reactions')
   t.ok(m.listOfReactions instanceof ListOfReactions)
-  t.equal(size(m.listOfReactions), nReactions, `should have ${nReactions} reactions but has ${size(m.listOfReactions)}`)
-  for (let c of values(m.listOfReactions)) {
+  t.equal(m.listOfReactions.length, nReactions, `should have ${nReactions} reactions but has ${m.listOfReactions.length}`)
+  for (let c of m.listOfReactions) {
     t.ok(c instanceof Reaction)
     t.ok(c.id)
     t.ok(isBool(c.reversible))
 
-    t.ok(c.reactants)
-    t.ok(c.products)
-    t.ok(c.modifiers)
-    t.not(c.reactants.size, 0)
-    t.not(c.products.size, 0)
+    const reactants = c.listOfReactants
+    const products = c.listOfProducts
+    const modifiers = c.listOfModifiers
 
-    for (let s of c.reactants) {
-      t.ok(s instanceof Species)
-      t.ok(contains(values(m.listOfSpecies), s.species))
+    t.ok(reactants)
+    t.ok(products)
+    t.ok(modifiers)
+    t.ok(reactants instanceof ListOfReactants)
+    t.ok(products instanceof ListOfProducts)
+    t.ok(modifiers instanceof ListOfModifiers)
+    t.ok(reactants.length)
+
+    for (let s of reactants) {
+      t.ok(s instanceof SpeciesReference)
+      t.ok(contains(m.listOfSpecies, s.species))
     }
-    for (let s of c.products) {
-      t.ok(s instanceof Species)
-      t.ok(contains(values(m.listOfSpecies), s.species))
+    for (let s of products) {
+      t.ok(s instanceof SpeciesReference)
+      t.ok(contains(m.listOfSpecies, s.species))
     }
-    for (let s of c.modifiers) {
-      t.ok(s instanceof Species)
-      t.ok(contains(values(m.listOfSpecies), s.species))
+    for (let s of modifiers) {
+      t.ok(s instanceof ModifierSpeciesReference)
+      t.ok(contains(m.listOfSpecies, s.species))
     }
   }
 
@@ -102,6 +107,9 @@ function testRoundTrip (f, t) {
     .pipe(createReader())
     .pipe(createBuilder())
     .on('data', (a) => {
+      // const w2 = createWriter()
+      // w2.pipe(fs.createWriteStream(f + 'bla.xml'))
+      // w2.write(a)
       const w = createWriter()
       w.pipe(createReader()).pipe(createBuilder()).on('data', (b) => {
         const d = deepdiff(b, a)
@@ -112,48 +120,48 @@ function testRoundTrip (f, t) {
     })
 }
 
-test('layout', (t) => {
-  fs.createReadStream('tests/resources/example5.xml')
+function testLayout (t, f) {
+  fs.createReadStream(f)
     .pipe(createReader())
     .pipe(createBuilder())
     .on('data', (d) => {
       const m = d.model
       t.ok(JSON.stringify(m), 'shouldn\'t be cyclic')
       t.ok(m.annotation, 'should have an annotation')
-      t.ok(m.annotation.layouts, 'should have layouts')
+      t.ok(m.annotation.listOfLayouts, 'should have layouts')
 
       t.ok(m.listOfReactions, 'should have reactions')
-      t.equal(size(m.listOfReactions), 10, 'should have 10 reactions')
+      t.equal(m.listOfReactions.length, 10, 'should have 10 reactions')
 
-      for (let r of values(m.listOfReactions)) {
+      for (let r of m.listOfReactions) {
         t.ok(r.id, 'reaction should have an id')
-        for (let s of r.reactants) {
-          t.ok(contains(values(m.listOfSpecies), s.species))
+        for (let s of r.listOfReactants) {
+          t.ok(contains(m.listOfSpecies, s.species))
           t.ok(s.annotation)
         }
-        for (let s of r.products) t.ok(contains(values(m.listOfSpecies), s.species))
-        for (let s of r.modifiers) t.ok(contains(values(m.listOfSpecies), s.species))
+        for (let s of r.listOfProducts) t.ok(contains(m.listOfSpecies, s.species))
+        for (let s of r.listOfModifiers) t.ok(contains(m.listOfSpecies, s.species))
       }
 
-      t.equal(size(m.annotation.layouts), 1, 'should have one layout')
+      t.equal(m.annotation.listOfLayouts.length, 1, 'should have one layout')
 
-      let layout = m.annotation.layouts[0]
+      let layout = m.annotation.listOfLayouts[0]
 
       t.ok(layout, 'layout should be present')
       t.ok(layout.id, 'layout should have an id')
-      t.ok(layout.compartmentGlyphs, 'layout should have compartment glyphs')
-      t.equal(size(layout.compartmentGlyphs), 5, 'layout should have 5 compartment glyphs')
-      t.ok(layout.speciesGlyphs, 'layout should have species glyphs')
-      t.equal(size(layout.speciesGlyphs), 16, 'layout should have 16 species glyphs')
-      t.ok(layout.reactionGlyphs, 'layout should have reaction glyphs')
-      t.equal(size(layout.reactionGlyphs), 6, 'layout should have 6 reaction glyphs')
-      t.ok(layout.textGlyphs, 'layout should have text glyphs')
-      t.equal(size(layout.textGlyphs), 27, 'layout should have 27 text glyphs')
+      t.ok(layout.listOfCompartmentGlyphs, 'layout should have compartment glyphs')
+      t.equal(layout.listOfCompartmentGlyphs.length, 5, 'layout should have 5 compartment glyphs')
+      t.ok(layout.listOfSpeciesGlyphs, 'layout should have species glyphs')
+      t.equal(layout.listOfSpeciesGlyphs.length, 16, 'layout should have 16 species glyphs')
+      t.ok(layout.listOfReactionGlyphs, 'layout should have reaction glyphs')
+      t.equal(layout.listOfReactionGlyphs.length, 6, 'layout should have 6 reaction glyphs')
+      t.ok(layout.listOfTextGlyphs, 'layout should have text glyphs')
+      t.equal(layout.listOfTextGlyphs.length, 27, 'layout should have 27 text glyphs')
 
       t.end()
     })
     .on('error', (e) => t.fail(e.message))
-})
+}
 
 function testRevive (file, t, nCompartments, nSpecies, nReactions,
   shouldHaveBoundaryCondition, shouldHaveInitialConcentration) {
