@@ -1,6 +1,6 @@
 {
   "name": "jssbml",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "main": "lib/index.js",
   "author": "lordvlad",
   "license": "MIT",
@@ -8,21 +8,23 @@
     "test": "nyc tape tests/**/*.js | faucet",
     "report": "nyc report --reporter=text-lcov | coveralls"
   },
-  "devDependencies": {
-    "array-last": "^1.1.1",
-    "coveralls": "^2.13.1",
+  "dependencies": {
+    "array-last": "^1.2.0",
     "deep-diff": "^0.3.8",
-    "faucet": "0.0.1",
     "in-array": "^0.1.2",
     "is-boolean": "^0.0.1",
     "is-empty-object": "^1.1.1",
-    "is-number": "^3.0.0",
+    "is-number": "^4.0.0",
     "is-object": "^1.0.1",
     "lodash.pick": "^4.4.0",
-    "multipipe": "^1.0.2",
-    "nyc": "^11.0.3",
-    "sax": "^1.2.2",
-    "standard": "^10.0.2",
+    "multipipe": "^2.0.1",
+    "sax": "^1.2.2"
+  },
+  "devDependencies": {
+    "coveralls": "^3.0.0",
+    "faucet": "0.0.1",
+    "nyc": "^11.3.0",
+    "standard": "^10.0.3",
     "tape": "^4.8.0"
   }
 }
