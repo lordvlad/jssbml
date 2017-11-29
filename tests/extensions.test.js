@@ -5,8 +5,10 @@ const isStr = require('is-string')
 
 test((t) => {
   const fbc = require('../extensions/fbc')
-  const ODocument = require('../lib/document')
-  const XDocument = fbc(ODocument)
+  const ojssbml = require('../lib')
+  const xjssbml = fbc(ojssbml)
+  const ODocument = ojssbml.Document
+  const XDocument = xjssbml.Document
 
   const ListOfObjectives = XDocument.ListOfObjectives
 

@@ -1,6 +1,7 @@
 const assign = Object.assign
 
-module.exports = function (ODocument) {
+module.exports = function (jssbml) {
+  const ODocument = jssbml.Document
   const {
     Model: OModel,
     Species: OSpecies,
@@ -9,10 +10,10 @@ module.exports = function (ODocument) {
 
   class Document extends ODocument { }
 
-  class ListOfFluxObjectives extends List {}
+  class ListOfFluxObjectives extends List { }
 
   class Objective {
-    constructor () {
+    constructor() {
       assign(this, {
         type: 'maximize',
         listOfObjectives: new ListOfFluxObjectives()
@@ -21,7 +22,7 @@ module.exports = function (ODocument) {
   }
 
   class FluxObjective {
-    constructor () {
+    constructor() {
       assign(this, {
         id: '',
         name: '',
@@ -32,14 +33,14 @@ module.exports = function (ODocument) {
   }
 
   class ListOfObjectives extends List {
-    constructor (len) {
+    constructor(len) {
       super(len)
-      assign(this, {activeObjective: null})
+      assign(this, { activeObjective: null })
     }
   }
 
   class Model extends OModel {
-    constructor () {
+    constructor() {
       super()
       assign(this, {
         strict: true,
@@ -49,18 +50,22 @@ module.exports = function (ODocument) {
   }
 
   class Species extends OSpecies {
-    constructor () {
+    constructor() {
       super()
-      assign(this, {charge: 0, chemicalFormula: ''})
+      assign(this, { charge: 0, chemicalFormula: '' })
     }
   }
 
-  return assign(Document, ODocument, {
-    Model,
-    Species,
-    ListOfObjectives,
-    ListOfFluxObjectives,
-    Objective,
-    FluxObjective
+  return assign({}, jssbml, {
+    revive: jssbml.reviver(Document),
+    Document: assign(Document, ODocument, {
+      Model,
+      Species,
+      ListOfObjectives,
+      ListOfFluxObjectives,
+      Objective,
+      FluxObjective
+    })
   })
 }
+
