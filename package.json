@@ -23,6 +23,7 @@
   "devDependencies": {
     "coveralls": "^3.0.0",
     "faucet": "0.0.1",
+    "is-string": "^1.0.4",
     "nyc": "^11.3.0",
     "standard": "^10.0.3",
     "tape": "^4.8.0"
