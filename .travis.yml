@@ -1,7 +1,7 @@
 language: node_js
-node_js: "7"
-cache: yarn
+node_js: "9"
+cache: npm
 script:
-  - yarn run test
+  - npm test
 after_success:
-  - yarn run report
+  - npm report
