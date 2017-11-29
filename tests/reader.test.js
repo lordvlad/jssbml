@@ -4,12 +4,13 @@ const isNum = require('is-number')
 const isBool = require('is-boolean')
 const deepdiff = require('deep-diff')
 
-const { Document, revive, createReader, createWriter, createBuilder } = require('..')
+const { Document, reviver, createReader, createWriter, createBuilder } = require('..')
 const {
   Model, ListOfSpecies, ListOfReactions, ListOfCompartments,
   Compartment, Species, Reaction, ListOfProducts, ListOfReactants,
   ListOfModifiers, ModifierSpeciesReference, SpeciesReference
 } = Document
+const revive = reviver(Document)
 
 test('parse tca', (t) => testReader(t, 'tests/resources/tca.xml', 2, 26, 17))
 test('parse gly', (t) => testReader(t, 'tests/resources/gly.xml', 2, 25, 19, true, true))
