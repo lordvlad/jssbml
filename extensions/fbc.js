@@ -3,12 +3,13 @@ const assign = Object.assign
 module.exports = function (ODocument) {
   const {
     Model: OModel,
-    Species: OSpecies
+    Species: OSpecies,
+    List
   } = ODocument
 
   class Document extends ODocument { }
 
-  class ListOfFluxObjectives extends Array {}
+  class ListOfFluxObjectives extends List {}
 
   class Objective {
     constructor () {
@@ -30,7 +31,7 @@ module.exports = function (ODocument) {
     }
   }
 
-  class ListOfObjectives extends Array {
+  class ListOfObjectives extends List {
     constructor (len) {
       super(len)
       assign(this, {activeObjective: null})
