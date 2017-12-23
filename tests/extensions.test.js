@@ -1,9 +1,8 @@
 const test = require('tape')
 const isNum = require('is-number')
-const isBool = require('is-boolean')
 const isStr = require('is-string')
 
-test((t) => {
+test('extensions', (t) => {
   const fbc = require('../extensions/fbc')
   const ojssbml = require('../lib')
   const xjssbml = fbc(ojssbml)
