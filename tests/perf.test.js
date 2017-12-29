@@ -4,7 +4,7 @@ const { createReader } = require('..')
 
 const txt = fs.readFileSync('tests/resources/example5.xml')
 const nSamples = 100
-const tLimit = 100 // milliseconds
+const tLimit = 50 // milliseconds
 
 test('performance', (t) => {
   function reduce (sum, i) {

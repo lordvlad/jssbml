@@ -13,7 +13,7 @@ module.exports = function (jssbml) {
   class ListOfFluxObjectives extends List { }
 
   class Objective {
-    constructor() {
+    constructor () {
       assign(this, {
         type: 'maximize',
         listOfObjectives: new ListOfFluxObjectives()
@@ -22,7 +22,7 @@ module.exports = function (jssbml) {
   }
 
   class FluxObjective {
-    constructor() {
+    constructor () {
       assign(this, {
         id: '',
         name: '',
@@ -33,14 +33,14 @@ module.exports = function (jssbml) {
   }
 
   class ListOfObjectives extends List {
-    constructor(len) {
+    constructor (len) {
       super(len)
       assign(this, { activeObjective: null })
     }
   }
 
   class Model extends OModel {
-    constructor() {
+    constructor () {
       super()
       assign(this, {
         strict: true,
@@ -50,7 +50,7 @@ module.exports = function (jssbml) {
   }
 
   class Species extends OSpecies {
-    constructor() {
+    constructor () {
       super()
       assign(this, { charge: 0, chemicalFormula: '' })
     }
@@ -68,4 +68,3 @@ module.exports = function (jssbml) {
     })
   })
 }
-
