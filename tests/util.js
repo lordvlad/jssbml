@@ -3,14 +3,14 @@ const isNum = require('is-number')
 const isBool = require('is-boolean')
 const deepdiff = require('deep-diff')
 
-const { Factory, RDF, SBML, revive, createReader, createBuilder } = require('..')
+const { Factory, SBML, revive, createReader, createBuilder } = require('..')
 const {
   Model, ListOfSpecies, ListOfReactions, ListOfCompartments,
   Compartment, Species, Reaction, ListOfProducts, ListOfReactants,
   ListOfModifiers, ModifierSpeciesReference, SpeciesReference
 } = SBML
 
-const factory = new Factory({namespaces: [SBML, RDF]})
+const factory = new Factory()
 
 function contains (a, b) { return a.indexOf(b) > -1 }
 
