@@ -116,6 +116,9 @@ function testRevive (file, t, nCompartments, nSpecies, nReactions,
     .on('data', (a) => {
       const c = revive(JSON.parse(JSON.stringify(a)))
       validate(t, c, nCompartments, nSpecies, nReactions, shouldHaveBoundaryCondition, shouldHaveInitialConcentration)
+      const d = deepdiff(c, a)
+      t.ok(typeof d === 'undefined', JSON.stringify(d, null, 2))
+      t.end()
     })
     .on('error', (e) => t.fail(e.message))
 }
