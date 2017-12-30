@@ -3,7 +3,7 @@ const isNum = require('is-number')
 const isBool = require('is-boolean')
 const deepdiff = require('deep-diff')
 
-const { Factory, SBML, revive, createReader, createBuilder } = require('..')
+const { Factory, SBML, revive } = require('..')
 const {
   Model, ListOfSpecies, ListOfReactions, ListOfCompartments,
   Compartment, Species, Reaction, ListOfProducts, ListOfReactants,
@@ -17,8 +17,7 @@ function contains (a, b) { return a.indexOf(b) > -1 }
 function testReader (t, file, nCompartments, nSpecies, nReactions,
   shouldHaveBoundaryCondition, shouldHaveInitialConcentration) {
   fs.createReadStream(file)
-    .pipe(createReader())
-    .pipe(createBuilder())
+    .pipe(factory.createReader())
     .on('data', (d) => validate(t, d, nCompartments, nSpecies, nReactions,
       shouldHaveBoundaryCondition, shouldHaveInitialConcentration))
     .on('error', (e) => t.fail(e.message))
@@ -113,8 +112,7 @@ function testRoundTrip (f, t) {
 function testRevive (file, t, nCompartments, nSpecies, nReactions,
   shouldHaveBoundaryCondition, shouldHaveInitialConcentration) {
   fs.createReadStream(file)
-    .pipe(createReader())
-    .pipe(createBuilder())
+    .pipe(factory.createReader())
     .on('data', (a) => {
       const c = revive(JSON.parse(JSON.stringify(a)))
       validate(t, c, nCompartments, nSpecies, nReactions, shouldHaveBoundaryCondition, shouldHaveInitialConcentration)
@@ -124,8 +122,7 @@ function testRevive (file, t, nCompartments, nSpecies, nReactions,
 
 function testLayout (t, f) {
   fs.createReadStream(f)
-    .pipe(createReader())
-    .pipe(createBuilder())
+    .pipe(factory.createReader())
     .on('data', (d) => {
       const m = d.model
       t.ok(JSON.stringify(m), 'shouldn\'t be cyclic')
