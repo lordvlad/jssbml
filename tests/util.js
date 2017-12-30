@@ -115,10 +115,9 @@ function testRevive (file, t, nCompartments, nSpecies, nReactions,
     .pipe(factory.createReader())
     .on('data', (a) => {
       const c = revive(JSON.parse(JSON.stringify(a)))
-      validate(t, c, nCompartments, nSpecies, nReactions, shouldHaveBoundaryCondition, shouldHaveInitialConcentration)
       const d = deepdiff(c, a)
       t.ok(typeof d === 'undefined', JSON.stringify(d, null, 2))
-      t.end()
+      validate(t, c, nCompartments, nSpecies, nReactions, shouldHaveBoundaryCondition, shouldHaveInitialConcentration)
     })
     .on('error', (e) => t.fail(e.message))
 }
