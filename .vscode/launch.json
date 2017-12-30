@@ -15,6 +15,13 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "launch layout test",
+            "program": "${workspaceRoot}\\tests\\layout.test.js"
+        },
+
+        {
+            "type": "node",
+            "request": "launch",
             "name": "launch reviver test",
             "program": "${workspaceRoot}\\tests\\revive.test.js"
         }
