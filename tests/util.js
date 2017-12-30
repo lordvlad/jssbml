@@ -3,7 +3,7 @@ const isNum = require('is-number')
 const isBool = require('is-boolean')
 const deepdiff = require('deep-diff')
 
-const { Factory, SBML, revive } = require('..')
+const { Factory, SBML } = require('..')
 const {
   Model, ListOfSpecies, ListOfReactions, ListOfCompartments,
   Compartment, Species, Reaction, ListOfProducts, ListOfReactants,
@@ -114,7 +114,7 @@ function testRevive (file, t, nCompartments, nSpecies, nReactions,
   fs.createReadStream(file)
     .pipe(factory.createReader())
     .on('data', (a) => {
-      const c = revive(JSON.parse(JSON.stringify(a)))
+      const c = factory.createReviver()(JSON.parse(JSON.stringify(a)))
       const d = deepdiff(c, a)
       t.ok(typeof d === 'undefined', JSON.stringify(d, null, 2))
       validate(t, c, nCompartments, nSpecies, nReactions, shouldHaveBoundaryCondition, shouldHaveInitialConcentration)
