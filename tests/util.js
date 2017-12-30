@@ -166,5 +166,6 @@ module.exports = {
   testRevive,
   testReader,
   testRoundTrip,
-  testLayout
+  testLayout,
+  factory
 }
