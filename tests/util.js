@@ -96,9 +96,9 @@ function testRoundTrip (f, t) {
   fs.createReadStream(f)
     .pipe(factory.createReader())
     .on('data', (a) => {
-      // const w2 = factory.createWriter()
-      // w2.pipe(fs.createWriteStream(f + 'bla.xml'))
-      // w2.write(a)
+      const w2 = factory.createWriter()
+      w2.pipe(fs.createWriteStream(f + 'bla.xml'))
+      w2.write(a)
       const w = factory.createWriter()
       w.pipe(factory.createReader()).on('data', (b) => {
         const d = deepdiff(b, a)
