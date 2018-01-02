@@ -2,7 +2,7 @@ const fs = require('fs')
 const test = require('tape')
 const { createReader } = require('..')
 
-const txt = fs.readFileSync('tests/resources/example5.xml')
+const txt = fs.readFileSync('tests/resources/gly.xml')
 const nSamples = 100
 const tLimit = 50 // milliseconds
 
